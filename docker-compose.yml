@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  caddy:
+    image: caddy:2.3.0-alpine
+    container_name: caddy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./.docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./frontend:/home/frontend
+    depends_on:
+      - frontend
+#      - backend
+    networks:
+      - aspire
+
+#  backend:
+#    container_name: backend
+#    build: ./.docker/flask
+#    ports:
+#      - 5000:5000
+#    volumes:
+#      - ./backend:/home/backend
+#    network:
+#      - aspire
+#    env_file:
+#      - ./.env
+
+  frontend:
+    # image: node:16.0
+    container_name: frontend
+    build: 
+      context: .
+      dockerfile: ./.docker/quasar/Dockerfile
+    volumes:
+      - ./frontend:/home/frontend
+    ports:
+      - 8080:8080
+    working_dir: /home/frontend
+    entrypoint: bash -c 'quasar dev'
+    networks:
+      - aspire
+
+networks:
+  aspire:
+    name: aspire
+    driver: bridge

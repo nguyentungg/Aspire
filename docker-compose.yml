@@ -17,18 +17,22 @@ services:
 
 #  backend:
 #    container_name: backend
-#    build: ./.docker/flask
+#    build:
+#      context: .
+#      dockerfile: ./.docker/flask/Dockerfile
 #    ports:
 #      - 5000:5000
 #    volumes:
 #      - ./backend:/home/backend
-#    network:
+#      - ./data:/home/backend/data
+#    working_dir: /home/backend
+#    entrypoint: bash -c 'python ./app.py'
+#    networks:
 #      - aspire
 #    env_file:
 #      - ./.env
 
   frontend:
-    # image: node:16.0
     container_name: frontend
     build: 
       context: .

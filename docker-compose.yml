@@ -1,52 +1,67 @@
 version: "3.9"
 services:
-  caddy:
-    image: caddy:2.3.0-alpine
-    container_name: caddy
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./.docker/caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./frontend:/home/frontend
-    depends_on:
-      - frontend
-#      - backend
-    networks:
-      - aspire
 
-#  backend:
-#    container_name: backend
-#    build:
-#      context: .
-#      dockerfile: ./.docker/flask/Dockerfile
-#    ports:
-#      - 5000:5000
-#    volumes:
-#      - ./backend:/home/backend
-#      - ./data:/home/backend/data
-#    working_dir: /home/backend
-#    entrypoint: bash -c 'python ./app.py'
-#    networks:
-#      - aspire
-#    env_file:
-#      - ./.env
+  postgres:
+    image: postgres:11
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env
+    networks:
+      - aspire_net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    env_file:
+      - ./.env
+    networks:
+      - aspire_net
 
   frontend:
     container_name: frontend
-    build: 
+    build:
       context: .
-      dockerfile: ./.docker/quasar/Dockerfile
-    volumes:
-      - ./frontend:/home/frontend
+      dockerfile: ./.docker/frontend/Dockerfile
     ports:
-      - 8080:8080
-    working_dir: /home/frontend
-    entrypoint: bash -c 'quasar dev'
+      - "8080:8080"
+    working_dir: /usr/app/frontend/
+    volumes:
+      - ./frontend:/usr/app/frontend
+    entrypoint: /bin/sh -c "yarn install && yarn run dev"
+    depends_on:
+      - postgres
+    # env_file:
+    #   - ./.env
     networks:
-      - aspire
+      - aspire_net
+
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: ./.docker/backend/Dockerfile
+    ports:
+      - "8081:8081"
+    working_dir: /usr/app/backend/
+    depends_on:
+      - postgres
+      - frontend
+    restart: always
+    stdin_open: true
+    tty: true
+    env_file:
+      - ./.env
+    networks:
+      - aspire_net
 
 networks:
-  aspire:
-    name: aspire
+  aspire_net:
+    name: aspire_net
     driver: bridge
+
+

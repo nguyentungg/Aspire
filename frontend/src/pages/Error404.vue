@@ -6,7 +6,7 @@
       </div>
 
       <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+        Nothing here...
       </div>
 
       <q-btn
@@ -22,10 +22,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+<script>
+export default {
   name: 'Error404'
-})
+}
 </script>

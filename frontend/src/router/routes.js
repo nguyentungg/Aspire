@@ -13,10 +13,7 @@ const routes = [
             path: "customers",
             component: () => import("pages/admin/CustomerList.vue")
           },
-          {
-            path: "loans",
-            component: () => import("pages/admin/LoansManagement.vue")
-          }
+          { path: "loans", component: () => import("pages/admin/LoansManagement.vue") }
         ]
       },
       { path: "/signin", component: () => import("pages/Signin.vue") },

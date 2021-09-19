@@ -1,4 +1,4 @@
-export function fetchCustomerList(state, { data }) {
+export function getCustomerList(state, { data }) {
   state.customerList = data;
 }
 export function getLoans(state, { data }) {

@@ -35,14 +35,15 @@ Admin page: /admin/loans
   Default admin acc: admin@aspire.test / admin
 ```
 
-How to use:
+### How to use:
 
-- Login to admin account to create new customer
-- Open new tab, login into previously created customer acc, register a loan
-- Switch to admin tab, F5 page, navigate to Loan menu, see new registered loan, just accept/reject it
-- Switch to customer tab, F5 page, if admin has accepted it, customer can make a weekly payment
+**Step 1**:  Login to admin account and create new customer.
 
-2. Challenge 2
+**Step 2**: Open new tab, login into previously created customer acc, register a loan.
+
+**Step 3**:  Back to the admin tab, refresh the page, navigate to Loan menu, see new registered loan, accept/reject it.
+
+**Step 4**: Go to customer tab, Refresh the page, if admin has accepted it, you can click on Pay button and make a weekly payment.
 
 
 

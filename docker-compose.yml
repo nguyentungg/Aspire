@@ -1,5 +1,18 @@
 version: "3.9"
 services:
+  caddy:
+    image: caddy:2.3.0-alpine
+    container_name: caddy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./.docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./frontend:/home/frontend
+      - ./backend:/home/backend
+    depends_on:
+    networks:
+      - aspire_net
 
   postgres:
     image: postgres:11
@@ -35,8 +48,10 @@ services:
     entrypoint: /bin/sh -c "yarn install && yarn run dev"
     depends_on:
       - postgres
-    # env_file:
-    #   - ./.env
+    stdin_open: true
+    tty: true
+    env_file:
+      - ./.env
     networks:
       - aspire_net
 

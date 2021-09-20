@@ -47,7 +47,7 @@ services:
     working_dir: /usr/app/frontend/
     volumes:
       - ./frontend:/usr/app/frontend
-    entrypoint: /bin/sh -c "yarn install && yarn run dev"
+    entrypoint: /bin/sh -c "yarn install && quasar dev"
     depends_on:
       - postgres
     networks:
